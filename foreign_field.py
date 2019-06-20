@@ -27,4 +27,7 @@ class MyForeignKeyField(rf_serializers.RelatedField):
             raise ValidationError('incorrect_type: {}'.format(type(data).__name__))
 
     def to_representation(self, value):
+        """
+        返回需要的属性，而不是主键或者field的字符串表示
+        """
         return value.preferred_field
