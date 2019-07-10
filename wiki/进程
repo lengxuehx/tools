@@ -1,0 +1,5 @@
+### 关于不可中断进程
+* sleep分两种：TASK_INTERRUPTIBLE和TASK_UNINTERRUPTIBLE
+* TASK_INTERRUPTIBLE响应中断
+* TASK_UNINTERRUPTIBLE不响应中断
+* 详见[这里](https://stackoverflow.com/a/224042/2272451)
