@@ -1,5 +1,5 @@
 ### 关于不可中断进程
 * sleep分两种：TASK_INTERRUPTIBLE和TASK_UNINTERRUPTIBLE
 * TASK_INTERRUPTIBLE响应中断
-* TASK_UNINTERRUPTIBLE不响应中断
+* TASK_UNINTERRUPTIBLE 处于该状态的进程无无法被终止，也无法被中断[看这里](https://stackoverflow.com/a/1475715/2272451)
 * 详见[这里](https://stackoverflow.com/a/224042/2272451)
