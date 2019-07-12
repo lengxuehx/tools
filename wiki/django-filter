@@ -9,7 +9,7 @@
            return queryset.filter(assignees__in=split_values)
     
    这里*value*会被转成*assignees*对应的object也就是Member，而不是原始的查询字段，如"1,2"；如果写成下面这样，则value就是原始的查询
-   字符"1,2"了
+   字符"1,2"了。如果不想写filter method，查询语句就用多key的形式：key=1&key=2，且filte field选用ModelChoiceFilter即可
    
       assignees = django_filters.CharFilter(field_name='assignees', method='filter_assignees')`
       
