@@ -1,0 +1,26 @@
+* jango.contrib.sessions.backends.signed_cookies
+
+   加密后的cookie保存在客户端，形如：`.eJxVjDsOwjAQBe-yNbLkbJwgSnrOYO3HiwPIluKkQtwdIqUg7ZuZ94ZI65Lj2tIcJ4ULdHD635jkmcoG9EHlXp3UsswTu01xO23uVjW9rrt7OMjU8q8Wr0nIEM9kAwpq4I7ZQgjo-0FN0HsarYfPFwxAMfE:1hm7p0:Q-BpxUBNSza_vIrUAyCAUvQWTqQ`，
+   其中`.eJxVjDsOwjAQBe-yNbLkbJwgSnrOYO3HiwPIluKkQtwdIqUg7ZuZ94ZI65Lj2tIcJ4ULdHD635jkmcoG9EHlXp3UsswTu01xO23uVjW9rrt7OMjU8q8Wr0nIEM9kAwpq4I7ZQgjo-0FN0HsarYfPFwxAMfE:1hm7p0`
+   是value，`Q-BpxUBNSza_vIrUAyCAUvQWTqQ`是signature，`1hm7p0`是timestamp，客户端访问服务端时，
+   要先验证签名是否合法，即服务端对value签名后看看是不是`Q-BpxUBNSza_vIrUAyCAUvQWTqQ`
+   验证签名合法后，再进行base64解码、zlib解压缩，即得到最终数据，类似如下形式：
+   
+      {
+        '_auth_user_backend': 'django.contrib.auth.backends.ModelBackend',
+        '_auth_user_hash': 'c1decaf338af63c3d5b2bbf5553146dfc311a7f4',
+        '_auth_user_id': '2'
+      }
+   其中`_auth_user_hash`是用户的`password(加密后的)`和`salt`经过*hmac*后的值，
+   服务端还要做一次*hmac*，以验证结果是不是`c1decaf338af63c3d5b2bbf5553146dfc311a7f4`
+ 
+ * django.contrib.sessions.backends.cache
+ 
+   客户端只保存session_id，服务端根据session_id从cache取出session_data，形式和上面解码、解密后的一样：
+      
+       {
+        '_auth_user_backend': 'django.contrib.auth.backends.ModelBackend',
+        '_auth_user_hash': 'c1decaf338af63c3d5b2bbf5553146dfc311a7f4',
+        '_auth_user_id': '2'
+       }
+    后面的_auth_user_hash验证也和上面一样
