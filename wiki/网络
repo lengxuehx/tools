@@ -1,0 +1,6 @@
+* 打开网页报错：`ERR_CONNECTION_REFUSED`，原因可能是： 端口错误或端口未开放或端口被禁，用curl访问，报错：` Connection refused`，
+用telnet访问：`telnet ip port`，报错：` Unable to connect to remote host: Connection refused`。可以用netstat查看端口开放情况，参看
+[这里](https://serverfault.com/a/725263/267349)
+
+
+* 
