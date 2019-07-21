@@ -6,3 +6,4 @@
 ## crc32和md5
 * 前者主要用于错误检测，注重速度；后者主要确保信息没被篡改，注重安全；
 * 详见[这里](https://stackoverflow.com/a/996873/2272451)和[这里](https://stackoverflow.com/a/16125537/2272451)
+* 在对安全性要求不高的情况下，可是把crc32当做hash algorithm使用，详见[该贴](https://stackoverflow.com/a/10962213/2272451)
