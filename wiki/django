@@ -46,3 +46,7 @@
       def filter_assignees(self, queryset, name, value):
           split_values = value.split(',')
           return queryset.filter(assignees__in=split_values)
+          
+### WSGI & ASGI
+* WSGi只支持HTTP协议
+* ASGI支持HTTP, HTTP/2, WebSockets
