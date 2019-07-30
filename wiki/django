@@ -1,3 +1,4 @@
+### 关于django-session
 * jango.contrib.sessions.backends.signed_cookies
 
    加密后的cookie保存在客户端，形如：`.eJxVjDsOwjAQBe-yNbLkbJwgSnrOYO3HiwPIluKkQtwdIqUg7ZuZ94ZI65Lj2tIcJ4ULdHD635jkmcoG9EHlXp3UsswTu01xO23uVjW9rrt7OMjU8q8Wr0nIEM9kAwpq4I7ZQgjo-0FN0HsarYfPFwxAMfE:1hm7p0:Q-BpxUBNSza_vIrUAyCAUvQWTqQ`，
@@ -24,3 +25,24 @@
         '_auth_user_id': '2'
        }
     后面的_auth_user_hash验证也和上面一样
+
+    
+### 关于django-filter
+* ModelChoiceFilter 
+
+      assignees = django_filters.ModelChoiceFilter(
+        field_name='assignees', method='filter_assignees', queryset=models.Member.objects.all()
+      ) 
+    
+      def filter_assignees(self, queryset, name, value):     
+           split_values = value.split(',')               
+           return queryset.filter(assignees__in=split_values)
+    
+   这里*value*会被转成*assignees*对应的object也就是Member，而不是原始的查询字段，如"1,2"；如果写成下面这样，则value就是原始的查询
+   字符"1,2"了。如果不想写filter method，查询语句就用多key的形式：key=1&key=2，且filte field选用ModelChoiceFilter即可
+   
+      assignees = django_filters.CharFilter(field_name='assignees', method='filter_assignees')`
+      
+      def filter_assignees(self, queryset, name, value):
+          split_values = value.split(',')
+          return queryset.filter(assignees__in=split_values)

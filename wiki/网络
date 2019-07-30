@@ -1,6 +1,11 @@
+### 关于无法打开网页
+
 * 打开网页报错：`ERR_CONNECTION_REFUSED`，原因可能是： 端口错误或端口未开放或端口被禁，用curl访问，报错：` Connection refused`，
 用telnet访问：`telnet ip port`，报错：` Unable to connect to remote host: Connection refused`。可以用netstat查看端口开放情况，参看
 [这里](https://serverfault.com/a/725263/267349)
 
 
-* 
+* 在宿主机上访问docker的web服务`curl 127.0.0.1:8000/`，报错：`Connection reset by peer`，用netstat查看宿主机的端口，
+发现端口8000处于正常监听状态，说明export port有效；ssh到docker，`curl 127.0.0.1:8000`, 发现服务也可以正常访问。那是什么原因呢？
+是因为默认export的是`127.0.0.1:8000`，改为`0.0.0.0:8000`就可以了
+
