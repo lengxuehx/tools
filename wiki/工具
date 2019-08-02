@@ -1,0 +1,6 @@
+### 关于Git
+
+* windows版的git，右键点击Git Bash Here无法启动，且系统卡死，解决方式如下：
+  1. 修改快捷方式的target: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Git\Git Bash.lnk  的目标改为  
+  "C:\Program Files\Git\bin\bash.exe" --login -i
+  2. 注册表替换： "C:\Program Files\Git\git-bash.exe"  改为  "C:\Program Files\Git\bin\bash.exe"
