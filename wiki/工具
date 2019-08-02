@@ -5,7 +5,11 @@
   "C:\Program Files\Git\bin\bash.exe" --login -i
   2. 注册表替换： "C:\Program Files\Git\git-bash.exe"  改为  "C:\Program Files\Git\bin\bash.exe"
   
- ### 关于IP
+ ### 查询本机IP
  
  * 查找阿里云公网ip： `curl httpbin.org/ip` 或  `curl ip.cip.cc`
+ 
+ ### shadowcoks
+ 
+ * 快速启动 `ssserver -k 8888 -p 65535 -m aes-256-ctr -d start`
  
