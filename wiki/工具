@@ -4,3 +4,8 @@
   1. 修改快捷方式的target: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Git\Git Bash.lnk  的目标改为  
   "C:\Program Files\Git\bin\bash.exe" --login -i
   2. 注册表替换： "C:\Program Files\Git\git-bash.exe"  改为  "C:\Program Files\Git\bin\bash.exe"
+  
+ ### 关于IP
+ 
+ * 查找阿里云公网ip： `curl httpbin.org/ip` 或  `curl ip.cip.cc`
+ 
