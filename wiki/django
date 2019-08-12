@@ -50,3 +50,8 @@
 ### WSGI & ASGI
 * WSGi只支持HTTP协议
 * ASGI支持HTTP, HTTP/2, WebSockets
+
+### django-channels
+* channel的认证：客户端可以先通过http请求取得token，然后在与服务端建立连接时带上token，服务端认证成功后，双方以后就可以在
+此连接上通讯了（连接成功后，客户端发送消息时不需要在带上token了，相见[这里](https://stackoverflow.com/a/32619655/2272451)
+和[这里](https://devcenter.heroku.com/articles/websocket-security#validate-server-data)
