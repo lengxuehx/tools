@@ -55,3 +55,37 @@
 * channel的认证：客户端可以先通过http请求取得token，然后在与服务端建立连接时带上token，服务端认证成功后，双方以后就可以在
 此连接上通讯了（连接成功后，客户端发送消息时不需要在带上token了，相见[这里](https://stackoverflow.com/a/32619655/2272451)
 和[这里](https://devcenter.heroku.com/articles/websocket-security#validate-server-data)
+
+### WSGI
+* wsgi server和wsgi client的最小实现
+
+       def run_application(application):
+        """Server code."""
+        # This is where an application/framework stores
+        # an HTTP status and HTTP response headers for the server
+        # to transmit to the client
+        headers_set = []
+        # Environment dictionary with WSGI/CGI variables
+        environ = {}
+
+        def start_response(status, response_headers, exc_info=None):
+            headers_set[:] = [status, response_headers]
+    
+        # Server invokes the ‘application' callable and gets back the
+        # response body
+        result = application(environ, start_response)
+        # Server builds an HTTP response and transmits it to the client
+        ...
+    
+        def app(environ, start_response):
+            """A barebones WSGI app."""
+            start_response('200 OK', [('Content-Type', 'text/plain')])
+            return [b'Hello world!']
+        
+        run_application(app)
+        
+ * [how it works](https://ruslanspivak.com/lsbaws-part2/):
+   * The framework provides an ‘application’ callable (The WSGI specification doesn’t prescribe how that should be implemented)
+   * The server invokes the ‘application’ callable for each request it receives from an HTTP client. It passes a dictionary ‘environ’ containing WSGI/CGI variables and a ‘start_response’ callable as arguments to the ‘application’ callable.
+   * The framework/application generates an HTTP status and HTTP response headers and passes them to the ‘start_response’ callable for the server to store them. The framework/application also returns a response body.
+   * The server combines the status, the response headers, and the response body into an HTTP response and transmits it to the client (This step is not part of the specification but it’s the next logical step in the flow and I added it for clarity)

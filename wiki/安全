@@ -1,7 +1,8 @@
 ### hash和加密
-* hash像用用原材料做面包，一旦做成不可逆
-* 加密像存东西到保险柜，放进去和取出来的是一模一样的东西
-* 详见[这里](ttps://stackoverflow.com/questions/4948322/fundamental-difference-between-hashing-and-encryption-algorithms/4948393#4948393)
+* hash像用原材料做面包，一旦做成不可逆；可以用于非明文保存密码、检测文件是否被篡改、签名
+* 加密像存东西到保险柜，放进去和取出来的是一模一样的东西；用于需要原样恢复的时候
+* base64只是一种编码
+* 详见[这里](https://stackoverflow.com/questions/4948322/fundamental-difference-between-hashing-and-encryption-algorithms/4948393#4948393)
 
 ### crc32和md5
 * 前者主要用于错误检测，注重速度；后者主要确保信息没被篡改，注重安全；
