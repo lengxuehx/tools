@@ -9,3 +9,12 @@
 发现端口8000处于正常监听状态，说明export port有效；ssh到docker，`curl 127.0.0.1:8000`, 发现服务也可以正常访问。那是什么原因呢？
 是因为默认export的是`127.0.0.1:8000`，改为`0.0.0.0:8000`就可以了
 
+
+### 关于socket
+* [这篇值得细看](https://ruslanspivak.com/lsbaws-part3/)
+* tuple {10.10.10.2:49152, 12.12.12.3:8888} is a socket pair that uniquely identifies two endpoints of the TCP 
+connection on the client and the tuple {12.12.12.3:8888, 10.10.10.2:49152} is a socket pair that uniquely identifies 
+the same two endpoints of the TCP connection on the server.
+* http server用同一个端口同时和多个客户端通讯，使用fork来处理多连接
+* 如果web server是阻塞式的，即一次只能处理一个请求，那么服务被阻塞时，仍然能接受请求，这是因为内核有个一个队列可以缓存请求，队列长度
+受参数`REQUEST_QUEUE_SIZE`控制
