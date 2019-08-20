@@ -18,3 +18,9 @@ the same two endpoints of the TCP connection on the server.
 * http server用同一个端口同时和多个客户端通讯，使用fork来处理多连接
 * 如果web server是阻塞式的，即一次只能处理一个请求，那么服务被阻塞时，仍然能接受请求，这是因为内核有个一个队列可以缓存请求，队列长度
 受参数`REQUEST_QUEUE_SIZE`控制
+
+
+### 关于TCP Socket
+* TCP是**没有边界**的字节流协议，因此如果用TCP socket进行通讯，可能需要自定义边界，见《unix网络编程卷1》1.2节
+* 每个UDP数据报都有一个长度，见《unix网络编程卷1》2.3节
+* [这里](https://stackoverflow.com/a/2862176/2272451)有个不错的论述
