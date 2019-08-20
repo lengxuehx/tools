@@ -12,3 +12,14 @@
 环境变量，如此，即使脚本中不使用绝对路径(诸如 `os.system('python manage.py migrate')`)，也不会导致使用错误的python版本
 * 可以参考[这里](https://stackoverflow.com/a/257666/2272451)
 * 其实env是个linux命令，见[这里](https://linux.die.net/man/1/env)
+
+### 关于文件
+* linux上文件分为两部分：元数据和用户数据
+* 用户数据是记录真实内容的地方，元数据记录附件属性，入文件大小、创建时间、所有者信息等
+* 元数据中的inode号是文件的唯一标示符，文件名不是
+* 移动文件不改变inode号
+* 硬链接1个inode对应多个文件名；只能对已存在的文件创建硬链接；不能跨文件系统创建硬链接(不同文件系统的inode号可能重复)
+* 软链接有自己的inode号；可以对不存在的文件创建软链接；可以跨文件系统创建软链接；最好使用绝对路径创建软链接
+* 有可能inode耗尽但是仍有磁盘空间
+* 详见[这里](https://www.ibm.com/developerworks/cn/linux/l-cn-hardandsymb-links/index.html)
+
