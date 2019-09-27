@@ -89,3 +89,20 @@
    * The server invokes the ‘application’ callable for each request it receives from an HTTP client. It passes a dictionary ‘environ’ containing WSGI/CGI variables and a ‘start_response’ callable as arguments to the ‘application’ callable.
    * The framework/application generates an HTTP status and HTTP response headers and passes them to the ‘start_response’ callable for the server to store them. The framework/application also returns a response body.
    * The server combines the status, the response headers, and the response body into an HTTP response and transmits it to the client (This step is not part of the specification but it’s the next logical step in the flow and I added it for clarity)
+   
+   
+  ##allow hosts
+  * 如果nginx的server_name没有添加域名的话，则报如下错误：
+    ```
+    <html>
+        <head>
+            <title>403 Forbidden</title></head>
+            <body bgcolor="white">
+                <center><h1>403 Forbidden</h1></center>
+                <hr><center>nginx/1.14.0 (Ubuntu)</center>
+            </body>
+    </html>
+    ```
+  * 如果django.settings的ALLOWED_HOSTS没有将添加域名的话，则报如下错误：
+  
+     ```<h1>Bad Request (400)</h1>```
