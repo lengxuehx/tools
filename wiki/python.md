@@ -22,7 +22,7 @@
             print(iterator.send(-1))  # 2
             for x in iterator:
                 print(x)  # 3, 4
-* generator其实是一种**延迟计算**，不是一次性返回所有items，而是一次返回一个，让使用者按需索取
+* generator其实是一种**延迟计算**，不是一次性返回所有items，而是一次返回一个，让使用者按需索取；redis的`SCAN`指令和mysql的游标有类似效果
 * 这和散列表动态分配空间的做法有异曲同工之妙：散列表为了不让某次导致重新分配空间的操作过于耗时，不是在分配好空间后一次性重新散列所有条目，而是一次搬迁
 一部分，从而将成本分摊到每一次操作上，见[如何打造一个工业级水平的散列表](https://time.geekbang.org/column/article/64586)
 * 老的文件搜索用的是常规方式(os.path.walk)，新的文件搜索用的是generator(os.work)，后者要省内存且友好的多
