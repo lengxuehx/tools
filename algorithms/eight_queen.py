@@ -9,15 +9,15 @@ def print_location():
     while 0 <= step < 8:
         ret = put_chessman(chessboard, step)
         if ret is True:
-            step += 1
             print('{}: forward'.format(step))
             print_chessboard(chessboard)
+            step += 1
         else:
-            step -= 1
             print('{}: backward'.format(step))
             print_chessboard(chessboard)
+            step -= 1
 
-
+    print('=================')
     print_chessboard(chessboard)
 
 
@@ -41,19 +41,20 @@ def put_chessman(chessboard, step):
         if new_column >= 8:
             return False
 
-    ret = check_locations(chessboard, step, new_column)
-    if ret is True:
-        chessboard[step][new_column] = 1
-        return True
-    else:
-        return False
+    for i in range(new_column, 8):
+        ret = check_locations(chessboard, step, i)
+        if ret is True:
+            chessboard[step][i] = 1
+            return True
+
+    return False
 
 
 def check_locations(chessboard, row, column):
     leftup = column - 1
     rightup = column + 1
 
-    for x in range(row):
+    for x in range(row-1, -1, -1):
         for y in range(8):
             if chessboard[x][y] == 1:
                 if y == column:
@@ -64,8 +65,10 @@ def check_locations(chessboard, row, column):
                 elif rightup<8 and y==rightup:
                     return False
 
-                leftup -= leftup
-                rightup += rightup
+                break
+
+        leftup = leftup - 1
+        rightup = rightup + 1
 
     return True
 
