@@ -91,7 +91,7 @@
    * The server combines the status, the response headers, and the response body into an HTTP response and transmits it to the client (This step is not part of the specification but it’s the next logical step in the flow and I added it for clarity)
    
    
-  ##allow hosts
+## allow hosts
   * 如果nginx的server_name没有添加域名的话，则报如下错误：
     ```
     <html>
@@ -106,3 +106,8 @@
   * 如果django.settings的ALLOWED_HOSTS没有将添加域名的话，则报如下错误：
   
      ```<h1>Bad Request (400)</h1>```
+     
+## select_related 和 prefetch_related
+* `select_related`用于one-to-one和foreignkey，一对多(包括foreignkey的反查)和多对多都是不行的，详见[此贴](https://timmyomahony.com/blog/misconceptions-select_related-in-django/)
+* `select_related`实际用的的Inner Join，详见[此贴](https://learnbatta.com/blog/working-with-select_related-in-django-89/)
+* `select_related`是一次数据库查询，而`prefetch_related`是多次数据库查询，详见[此贴](https://stackoverflow.com/a/31237071/2272451)
