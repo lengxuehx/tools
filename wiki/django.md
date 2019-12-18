@@ -110,4 +110,5 @@
 ## select_related 和 prefetch_related
 * `select_related`用于one-to-one和foreignkey，一对多(包括foreignkey的反查)和多对多都是不行的，详见[此贴](https://timmyomahony.com/blog/misconceptions-select_related-in-django/)
 * `select_related`实际用的的Inner Join，详见[此贴](https://learnbatta.com/blog/working-with-select_related-in-django-89/)
-* `select_related`是一次数据库查询，而`prefetch_related`是多次数据库查询，详见[此贴](https://stackoverflow.com/a/31237071/2272451)
+* `select_related`规避1对多，是怕join导致行数过多(规模变化是倍乘的，详见[该贴](https://stackoverflow.com/a/45377282/2272451))
+* `select_related`是一次数据库查询，而`prefetch_related`是多次数据库查询(先查到IDs列表然后用`SELECT ... WHERE pk IN (...,...,...)`)，详见[此贴](https://stackoverflow.com/a/31237071/2272451)
