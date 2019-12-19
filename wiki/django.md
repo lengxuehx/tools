@@ -109,6 +109,28 @@
      
 ## select_related 和 prefetch_related
 * `select_related`用于one-to-one和foreignkey，一对多(包括foreignkey的反查)和多对多都是不行的，详见[此贴](https://timmyomahony.com/blog/misconceptions-select_related-in-django/)
-* `select_related`实际用的的Inner Join，详见[此贴](https://learnbatta.com/blog/working-with-select_related-in-django-89/)
+
+* `select_related`实际用的的Inner Join，详见[此贴](https://learnbatta.com/blog/working-with-select_related-in-django-89/)，文档这么说：
+  > prefetch_related in most cases will be implemented using an SQL query that uses the ‘IN’ operator. This means that for a large QuerySet a large ‘IN’ clause could be generated, 
+  which, depending on the database, might have performance problems of its own when it comes to parsing or executing the SQL query. Always profile for your use case!
+
 * `select_related`规避1对多，是怕join导致行数过多(规模变化是倍乘的，详见[该贴](https://stackoverflow.com/a/45377282/2272451))
+
 * `select_related`是一次数据库查询，而`prefetch_related`是多次数据库查询(先查到IDs列表然后用`SELECT ... WHERE pk IN (...,...,...)`)，详见[此贴](https://stackoverflow.com/a/31237071/2272451)
+
+* `Pizza.objects.all().prefetch_related('toppings')`查询了两次数据库，文档这么说：
+     
+    > We can reduce to just two queries using prefetch_related
+    
+* `Restaurant.objects.prefetch_related('pizzas__toppings')`查询了三次数据库，文档这么说：
+    > This will prefetch all pizzas belonging to restaurants, and all toppings belonging to those pizzas. This will result in a total of 3 database queries - one for the restaurants, 
+    > one for the pizzas, and one for the toppings.
+     
+* `prefetch_related` 会导致查询立即生效，而不是等到evaluate的时候，文档这么说：
+    > Note that the result cache of the primary QuerySet and all specified related objects will then be fully loaded into memory. This changes the typical behavior of QuerySets, 
+    which normally try to avoid loading all objects into memory before they are needed, even after a query has been executed in the database.
+
+* 两者区别，django文档这么说：
+    > select_related works by creating an SQL join and including the fields of the related object in the SELECT statement. For this reason, select_related gets the related objects in the same database query. However, to avoid the much larger result set that would result from joining across a ‘many’ relationship, select_related is limited to single-valued relationships - foreign key and one-to-one.
+    
+    > prefetch_related, on the other hand, does a separate lookup for each relationship, and does the ‘joining’ in Python. This allows it to prefetch many-to-many and many-to-one objects, which cannot be done using select_related, in addition to the foreign key and one-to-one relationships that are supported by select_related. 
