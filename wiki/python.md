@@ -40,6 +40,28 @@
 ## __init__ 和 __new__
 * __new__用于**创建**实例，__init__用于**初始化**实例，详见[该贴](https://stackoverflow.com/a/674345/2272451)
 * __new__是静态方法，第一个参数是cls；__init__是实例方法，第一个参数是self
+* 三种单例模式：
+ ```
+ def Singleton(cls):
+    instances = {}
+    def wrapper(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+    return wrapper
+    
+ class Singleton(object):
+    def __new__(cls, *args, **kwargs): #static方法
+        if not hasattr(cls, '_instance'):
+            cls._instance = super(Singleton, cls).__new__(cls, *args, **kwargs)
+        return cls._instance
+        
+ class Singleton(type):
+    def __call__(cls, *args, **kwargs):
+        if not hasattr(cls, '_instance'):
+            cls._instance = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instance
+  ```
 
 
 ## object、class和metaclass
@@ -47,3 +69,27 @@
 * 如果要统一改变对象的行为，可以改变类的定义；如果要改变统一类的行为，可以改变元类的定义
 * 强烈建议看下[此贴](https://stackoverflow.com/a/6581949/2272451)
 
+## 关于闭包
+* 下面的代码，_impl函数中的fun变量是等到该函数执行的时候才evaluate的，详见[该贴](https://stackoverflow.com/a/30298338/2272451)
+```
+import math
+
+mymath = dict()
+
+for fun in ["sin", "cos"]:
+    def _impl(val):
+        print "calculating: %s" % fun
+        return getattr(math, fun)(val)
+    mymath[fun] = _impl
+
+
+fun = 'tan'
+# will print and calculate tan
+print mymath["cos"](math.pi)
+```
+* 因此下面代码的执行结果是[9,9,9,9]，而不是[0,3,6,9]
+```
+def multi():
+    return [lambda x : i*x for i in range(4)]
+print([m(3) for m in multi()])
+```
