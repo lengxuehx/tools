@@ -36,3 +36,14 @@
 
 ## time.time()其实计算的是现在到1970-1-1零时的时间差值(秒数)
 * 即`datetime.datetime.utcnow() - t).total_seconds()`和`time.time()`几乎相等
+
+## __init__ 和 __new__
+* __new__用于**创建**实例，__init__用于**初始化**实例，详见[该贴](https://stackoverflow.com/a/674345/2272451)
+* __new__是静态方法，第一个参数是cls；__init__是实例方法，第一个参数是self
+
+
+## object、class和metaclass
+* class定义了object，metaclass定义了class：`MyClass = MetaClass(),my_object = MyClass()`
+* 如果要统一改变对象的行为，可以改变类的定义；如果要改变统一类的行为，可以改变元类的定义
+* 强烈建议看下[此贴](https://stackoverflow.com/a/6581949/2272451)
+
