@@ -137,4 +137,7 @@
     
 ## 数据库连接 
 * django默认会把`CONN_MAX_AG`设置为0，结果就是每个请求都会打开一个连接，结束后关闭连接，参见
-[该贴](https://andrewkowalik.com/posts/django-database-connnections-in-kafka)和[这个讨论](https://andrewkowalik.com/posts/django-database-connnections-in-kafka)
+[该贴](https://andrewkowalik.com/posts/django-database-connnections-in-kafka/)、
+[该贴](https://stackoverflow.com/questions/19937257/what-is-a-good-value-for-conn-max-age-in-django)
+和[这个讨论](https://groups.google.com/forum/#!topic/django-developers/NwY9CHM4xpU)
+* 如果想保持连接，可以设置`CONN_MAX_AGE`大于0
