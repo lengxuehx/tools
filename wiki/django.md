@@ -135,3 +135,6 @@
     
     > prefetch_related, on the other hand, does a separate lookup for each relationship, and does the ‘joining’ in Python. This allows it to prefetch many-to-many and many-to-one objects, which cannot be done using select_related, in addition to the foreign key and one-to-one relationships that are supported by select_related.
     
+## 数据库连接 
+* django默认会把`CONN_MAX_AG`设置为0，结果就是每个请求都会打开一个连接，结束后关闭连接，参见
+[该贴](https://andrewkowalik.com/posts/django-database-connnections-in-kafka)和[这个讨论](https://andrewkowalik.com/posts/django-database-connnections-in-kafka)
