@@ -93,3 +93,28 @@ def multi():
     return [lambda x : i*x for i in range(4)]
 print([m(3) for m in multi()])
 ```
+
+## 关于descriptor
+* 强烈推荐看[该贴](http://ericplumb.com/blog/understanding-djangos-cached_property-decorator.html)，
+重点：`cached_property`装饰的属性，首次调用是个`descriptor`，后面就被改成其他类性了，不是`descriptor`了，因此也不会再走`__get__'了
+  ```class cached_property(object):
+    """
+    Decorator that converts a method with a single self argument into a
+    property cached on the instance.
+    """
+    def __init__(self, func):
+        self.func = func
+
+    def __get__(self, instance, type=None):
+        if instance is None:
+            return self
+        res = instance.__dict__[self.func.__name__] = self.func(instance)
+        return res
+  ```
+  > 精彩描述：`instance.__dict__[self.func.__name__]` is where the magic happens. 
+  >It asks `self.func` what its `__name__` is (in this case color), 
+  >then uses the `instance's __dict__` attribute to replace itself with a property consisting
+  >of the value calculated in step 1. In other words, before this statement is executed, 
+  >`h.color` refers to a `cached_property` instance. After it is executed, `h.color` refers to 
+  >the string "blue". What this instance is doing, at the very time it's being accessed, 
+  >is replacing itself with the value calculated by the decorated method.
