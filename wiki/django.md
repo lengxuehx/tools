@@ -145,4 +145,7 @@
   > It turns out Django uses signals.request_finished.connect(close_connection) to close the database connection it normally uses. Since nothing normally happens in Django that doesn't involve a request, you take this behavior for granted.
 
   > In my case, though, there was no request because the job was scheduled. No request means no signal. No signal means the database connection was never closed.
-* CONN_MAX_AG`设置为多少合适，和具体的负载情况有关，可以参见[该讨论](https://stackoverflow.com/questions/19937257/what-is-a-good-value-for-conn-max-age-in-django)                                                                                                                                                                                            
+* CONN_MAX_AG`设置为多少合适，和具体的负载情况有关，可以参见[该讨论](https://stackoverflow.com/questions/19937257/what-is-a-good-value-for-conn-max-age-in-django)
+* mysql端显示活跃连接可以用该命令： ``show processlist``
+* 很多补丁试图用连接池的方法修改Django的行为，见[该贴](https://stackoverflow.com/questions/1125504/django-persistent-database-connection)
+和[该贴](http://www.craigkerstiens.com/2013/03/07/Fixing-django-db-connections/)                                                                                                                                                                                            
