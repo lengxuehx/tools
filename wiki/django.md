@@ -140,4 +140,4 @@
 [该贴](https://andrewkowalik.com/posts/django-database-connnections-in-kafka/)、
 [该贴](https://stackoverflow.com/questions/19937257/what-is-a-good-value-for-conn-max-age-in-django)
 和[这个讨论](https://groups.google.com/forum/#!topic/django-developers/NwY9CHM4xpU)
-* 如果想保持连接，可以设置`CONN_MAX_AGE`大于0
+* 如果想提高性能，保持连接，可以设置`CONN_MAX_AGE`大于0，见[该贴](https://www.revsys.com/tidbits/django-performance-simple-things/)
