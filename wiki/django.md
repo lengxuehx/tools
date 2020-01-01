@@ -138,7 +138,6 @@
 ## 数据库连接 
 * django默认会把`CONN_MAX_AG`设置为0，结果就是每个请求都会打开一个连接，结束后关闭连接，参见
 [该贴](https://andrewkowalik.com/posts/django-database-connnections-in-kafka/)、
-[该贴](https://stackoverflow.com/questions/19937257/what-is-a-good-value-for-conn-max-age-in-django)
 和[这个讨论](https://groups.google.com/forum/#!topic/django-developers/NwY9CHM4xpU)
 * 如果想提高性能，保持连接，可以设置`CONN_MAX_AGE`大于0，见[该贴](https://www.revsys.com/tidbits/django-performance-simple-things/)
 * 关闭连接是通过信号来做的：`signals.request_finished.connect(close_connection)`,[该贴](https://stackoverflow.com/a/1346401/2272451)
@@ -146,3 +145,4 @@
   > It turns out Django uses signals.request_finished.connect(close_connection) to close the database connection it normally uses. Since nothing normally happens in Django that doesn't involve a request, you take this behavior for granted.
 
   > In my case, though, there was no request because the job was scheduled. No request means no signal. No signal means the database connection was never closed.
+* CONN_MAX_AG`设置为多少合适，和具体的负载情况有关，可以参见[该讨论](https://stackoverflow.com/questions/19937257/what-is-a-good-value-for-conn-max-age-in-django)                                                                                                                                                                                            
