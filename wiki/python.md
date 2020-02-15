@@ -118,3 +118,13 @@ print([m(3) for m in multi()])
   >`h.color` refers to a `cached_property` instance. After it is executed, `h.color` refers to 
   >the string "blue". What this instance is doing, at the very time it's being accessed, 
   >is replacing itself with the value calculated by the decorated method.
+
+## json相比于binary，浪费空间
+```
+d = [3.5, 4.6] 
+dd = [3.50000000, 4.688888888]
+s = json.dumps(d)
+ss = json.dumps(dd)
+```
+* d和dd的大小一样，但是ss就比s大多了
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
