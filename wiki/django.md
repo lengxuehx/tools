@@ -91,7 +91,7 @@
    * The server combines the status, the response headers, and the response body into an HTTP response and transmits it to the client (This step is not part of the specification but it’s the next logical step in the flow and I added it for clarity)
    
    
-  ##allow hosts
+## allow hosts
   * 如果nginx的server_name没有添加域名的话，则报如下错误：
     ```
     <html>
@@ -106,3 +106,46 @@
   * 如果django.settings的ALLOWED_HOSTS没有将添加域名的话，则报如下错误：
   
      ```<h1>Bad Request (400)</h1>```
+     
+## select_related 和 prefetch_related
+* `select_related`用于one-to-one和foreignkey，一对多(包括foreignkey的反查)和多对多都是不行的，详见[此贴](https://timmyomahony.com/blog/misconceptions-select_related-in-django/)
+
+* `select_related`实际用的的Inner Join，详见[此贴](https://learnbatta.com/blog/working-with-select_related-in-django-89/)，文档这么说：
+  > prefetch_related in most cases will be implemented using an SQL query that uses the ‘IN’ operator. This means that for a large QuerySet a large ‘IN’ clause could be generated, 
+  which, depending on the database, might have performance problems of its own when it comes to parsing or executing the SQL query. Always profile for your use case!
+
+* `select_related`规避1对多，是怕join导致行数过多(规模变化是倍乘的，详见[该贴](https://stackoverflow.com/a/45377282/2272451))
+
+* `select_related`是一次数据库查询，而`prefetch_related`是多次数据库查询(先查到IDs列表然后用`SELECT ... WHERE pk IN (...,...,...)`)，详见[此贴](https://stackoverflow.com/a/31237071/2272451)
+
+* `Pizza.objects.all().prefetch_related('toppings')`查询了两次数据库，文档这么说：
+     
+    > We can reduce to just two queries using prefetch_related
+    
+* `Restaurant.objects.prefetch_related('pizzas__toppings')`查询了三次数据库，文档这么说：
+    > This will prefetch all pizzas belonging to restaurants, and all toppings belonging to those pizzas. This will result in a total of 3 database queries - one for the restaurants, 
+    > one for the pizzas, and one for the toppings.
+     
+* `prefetch_related` 会导致查询立即生效，而不是等到evaluate的时候，文档这么说：
+    > Note that the result cache of the primary QuerySet and all specified related objects will then be fully loaded into memory. This changes the typical behavior of QuerySets, 
+    which normally try to avoid loading all objects into memory before they are needed, even after a query has been executed in the database.
+
+* 两者区别，django文档这么说：
+    > select_related works by creating an SQL join and including the fields of the related object in the SELECT statement. For this reason, select_related gets the related objects in the same database query. However, to avoid the much larger result set that would result from joining across a ‘many’ relationship, select_related is limited to single-valued relationships - foreign key and one-to-one.
+    
+    > prefetch_related, on the other hand, does a separate lookup for each relationship, and does the ‘joining’ in Python. This allows it to prefetch many-to-many and many-to-one objects, which cannot be done using select_related, in addition to the foreign key and one-to-one relationships that are supported by select_related.
+    
+## 数据库连接 
+* django默认会把`CONN_MAX_AG`设置为0，结果就是每个请求都会打开一个连接，结束后关闭连接，参见
+[该贴](https://andrewkowalik.com/posts/django-database-connnections-in-kafka/)、
+和[这个讨论](https://groups.google.com/forum/#!topic/django-developers/NwY9CHM4xpU)
+* 如果想提高性能，保持连接，可以设置`CONN_MAX_AGE`大于0，见[该贴](https://www.revsys.com/tidbits/django-performance-simple-things/)
+* 关闭连接是通过信号来做的：`signals.request_finished.connect(close_connection)`,[该贴](https://stackoverflow.com/a/1346401/2272451)
+非常值得一读：
+  > It turns out Django uses signals.request_finished.connect(close_connection) to close the database connection it normally uses. Since nothing normally happens in Django that doesn't involve a request, you take this behavior for granted.
+
+  > In my case, though, there was no request because the job was scheduled. No request means no signal. No signal means the database connection was never closed.
+* CONN_MAX_AG`设置为多少合适，和具体的负载情况有关，可以参见[该讨论](https://stackoverflow.com/questions/19937257/what-is-a-good-value-for-conn-max-age-in-django)
+* mysql端显示活跃连接可以用该命令： ``show processlist``
+* 很多补丁试图用连接池的方法修改Django的行为，见[该贴](https://stackoverflow.com/questions/1125504/django-persistent-database-connection)
+和[该贴](http://www.craigkerstiens.com/2013/03/07/Fixing-django-db-connections/)                                                                                                                                                                                            
