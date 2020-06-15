@@ -127,4 +127,12 @@ s = json.dumps(d)
 ss = json.dumps(dd)
 ```
 * d和dd的大小一样，但是ss就比s大多了
+
+## base64编码之后还是bytes
+* 详见[该贴](https://stackoverflow.com/questions/40000495/how-to-encode-bytes-in-json-json-dumps-throwing-a-typeerror)
+* base64把`bytes`编码成`ASCII-only bytes`，而不是string
+```
+encoded = base64.encodebytes(b'data to be encoded') # encoded还是bytes
+decoded_str = encoded.decode('ascii') # 解码成sring
+```
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
