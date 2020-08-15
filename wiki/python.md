@@ -135,4 +135,10 @@ ss = json.dumps(dd)
 encoded = base64.encodebytes(b'data to be encoded') # encoded还是bytes
 decoded_str = encoded.decode('ascii') # 解码成sring
 ```
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+
+## 关于subprocess的stdout和stderr
+* 默认`subprocess.call()`输出到父进程的`stdout`和`stderr`，比如`ipython`里面输入`subprocess.call('ls')`，结果直接打印到console中   
+* 传如`stdout=subprocess.PIPE`参数会把子进程的`stdout`导到`pipe`中而不是父进程的`stdout`中，如`ipython`里面输入
+`subprocess.call('ls', stdout=subprocess.PIPE)`，结果不会打印到console中   
+* 要想`subprocess.check_output`捕捉异常输出，需要传入参数`stderr=subprocess.PIPE`，否则抛出的异常CalledProcessError只
+包含`stdout`，而`stderr`为空                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
