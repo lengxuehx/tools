@@ -141,4 +141,9 @@ decoded_str = encoded.decode('ascii') # 解码成sring
 * 传如`stdout=subprocess.PIPE`参数会把子进程的`stdout`导到`pipe`中而不是父进程的`stdout`中，如`ipython`里面输入
 `subprocess.call('ls', stdout=subprocess.PIPE)`，结果不会打印到console中   
 * 要想`subprocess.check_output`捕捉异常输出，需要传入参数`stderr=subprocess.PIPE`，否则抛出的异常CalledProcessError只
-包含`stdout`，而`stderr`为空                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+包含`stdout`，而`stderr`为空     
+
+# numpy的array理解
+```a = np.array([[1,2,3], [4,5,6]]) ```           
+* ```a[:, 0] = array([1, 4]) ```  理解： 锁定第0列，取该列的所有行
+* ```a[0,:]= array([1, 2, 3]) ``` 理解： 锁定第0行，取该行的所有列                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
