@@ -138,7 +138,7 @@ decoded_str = encoded.decode('ascii') # 解码成sring
 
 ## 关于subprocess的stdout和stderr
 * 默认`subprocess.call()`输出到父进程的`stdout`和`stderr`，比如`ipython`里面输入`subprocess.call('ls')`，结果直接打印到console中   
-* 传如`stdout=subprocess.PIPE`参数会把子进程的`stdout`导到`pipe`中而不是父进程的`stdout`中，如`ipython`里面输入
+* 传入`stdout=subprocess.PIPE`参数会把子进程的`stdout`导到`pipe`中而不是父进程的`stdout`中，如`ipython`里面输入
 `subprocess.call('ls', stdout=subprocess.PIPE)`，结果不会打印到console中   
 * 要想`subprocess.check_output`捕捉异常输出，需要传入参数`stderr=subprocess.PIPE`，否则抛出的异常CalledProcessError只
 包含`stdout`，而`stderr`为空     
@@ -150,3 +150,8 @@ decoded_str = encoded.decode('ascii') # 解码成sring
 
 # python2中文字符串
 * 用ur，不能用ru，如 ur"中国""
+
+# 关于ensure_ascii
+* 如果纯粹是交换信息（不管是文件json.dump还是字符json.dumps），则ensure_ascii=True为好，因为输出的是unicode编码过的
+字符(详见[该贴](https://stackoverflow.com/a/40421631/2272451)))，正向输出反向输入都很便利
+* 如果要给人看，可以选择ensure_ascii=False，则json不会把结果转为unicode；此时如果编辑解码正确，中文会正常显示
